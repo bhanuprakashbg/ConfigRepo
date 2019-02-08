@@ -3,8 +3,7 @@ properties = null
 def loadProperties() {
     node {
         
-        properties = new Properties()
-		git credentialsId: 'ec178a16-6695-42b1-a7a4-e02d67886fd0', url: 'https://github.com/bhanuprakashbg/ConfigRepo.git'		
+        properties = new Properties()				
         File propertiesFile = new File("${workspace}/Properties/pipeline.properties")
         properties.load(propertiesFile.newDataInputStream())       
     }
