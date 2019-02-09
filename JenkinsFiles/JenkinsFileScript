@@ -3,11 +3,10 @@ properties = null
 def loadProperties() {
     node {
         checkout scm
-        properties = new Properties()	
-	sh 'cd Properties'
+        properties = new Properties()		
 	sh 'ls -ltr'
 	sh 'pwd'
-        File propertiesFile = new File("pipeline.properties")
+        File propertiesFile = new File("Properties/pipeline.properties")
         properties.load(propertiesFile.newDataInputStream())    
 	 echo "Immediate one ${properties.projectPath}"
     }
