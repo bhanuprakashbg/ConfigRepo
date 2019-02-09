@@ -6,7 +6,7 @@ def loadProperties() {
         properties = new Properties()		
 	sh 'ls -ltr'
 	sh 'pwd'
-	sh 'cd ${workspace}/Properties'
+	sh 'sudo cd ${workspace}/Properties'
         File propertiesFile = new File("pipeline.properties")
         properties.load(propertiesFile.newDataInputStream())    
 	 echo "Immediate one ${properties.projectPath}"
