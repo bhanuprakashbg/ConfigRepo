@@ -6,10 +6,9 @@ def loadProperties() {
         properties = new Properties()		
 	sh 'ls -ltr'
 	sh 'pwd'
-	echo "${workspace}/Properties/pipeline.properties"
         File propertiesFile = new File("${workspace}/Properties/pipeline.properties")
         properties.load(propertiesFile.newDataInputStream())    
-	echo "Immediate one ${properties.projectPath}"
+	echo "Immediate one ${properties.appPath}"
     }
 }
 
@@ -22,7 +21,7 @@ node('master'){
 	}
 
 	stage('Checkout') {
-		git "${properties.projectPath}"
+		git "${properties.appPath}"
 	}	
 	
 	stage('Code Analysis') {
