@@ -42,6 +42,10 @@ node('master'){
 		stage('Code Coverage') {
 			sh 'mvn cobertura:check'
 		}
+		
+		stage('Unit Testinf') {
+			sh 'mvn test'
+		}
 
 		stage('Build') {    
 			sh 'mvn clean install'
