@@ -52,7 +52,7 @@ node('master'){
 		}
 
 		stage ('Artifactory') {
-			def server = Artifactory.newServer url:"${properties.artifactoryURL}", username: "${properties.artifactoryUsername}", password: "${properties.password}"
+			def server = Artifactory.newServer url:"${properties.artifactoryURL}", username: "${properties.artifactoryUsername}", password: "${properties.artifactoryPassword}"
 			def uploadSpec = """{
 			"files": [
 		    {
