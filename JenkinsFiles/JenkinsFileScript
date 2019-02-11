@@ -25,7 +25,7 @@ node('master'){
 	try {
 		notify('Project Build Started')
 
-		stage ('load properties') {
+		stage ('Load Properties') {
 			script {
 				loadProperties()				
 			}
@@ -61,6 +61,10 @@ node('master'){
 		stage('Deploy') {    
 			sh 'ls -ltr target/*.war'
 			sh 'sudo cp target/*.war /home/devopsuser6/apache-tomcat-8.5.37/webapps'
+		}
+		
+		stage('Clean Workspace') {    
+			sh 'ls -ltr'			
 		}
 
 		notify('Project Build Completed')
