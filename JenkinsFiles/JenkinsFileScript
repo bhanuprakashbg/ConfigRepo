@@ -40,7 +40,7 @@ node('master'){
 		}
 		
 		stage('Code Coverage') {
-			sh 'mvn cobertura:check'
+			sh 'mvn cobertura:cobertura'
 		}
 		
 		stage('Unit Testinf') {
