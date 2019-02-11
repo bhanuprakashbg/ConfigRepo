@@ -21,46 +21,51 @@ def notify(status){
 }
 
 node('master'){
-
-	notify('Project Build Started')
 	
-	stage ('load properties') {
-		script {
-			loadProperties()				
+	try {
+		notify('Project Build Started')
+
+		stage ('load properties') {
+			script {
+				loadProperties()				
+			}
 		}
-	}
 
-	stage('Checkout') {
-		git "${properties.appPath}"
-	}	
-	
-	stage('Code Analysis') {
-		sh 'mvn sonar:sonar'
-	}
-	
-	stage('Build') {    
-		sh 'mvn clean install'
-	}
+		stage('Checkout') {
+			git "${properties.appPath}"
+		}	
 
-	stage ('Artifactory') {
-		def server = Artifactory.newServer url:'http://localhost:8081/artifactory', username: 'admin', password: 'password'
-		def uploadSpec = """{
-		"files": [
-            {
-            "pattern": "*.war",
-            "target": "lib-staging"
-            }
-		]
-		}""" 
-		server.upload spec: uploadSpec		
+		stage('Code Analysis') {
+			sh 'mvn sonar:sonar'
+		}
+
+		stage('Build') {    
+			sh 'mvn clean install'
+		}
+
+		stage ('Artifactory') {
+			def server = Artifactory.newServer url:'http://localhost:8081/artifactory', username: 'admin', password: 'password'
+			def uploadSpec = """{
+			"files": [
+		    {
+		    "pattern": "*.war",
+		    "target": "lib-staging"
+		    }
+			]
+			}""" 
+			server.upload spec: uploadSpec		
+		}
+
+		stage('Deploy') {    
+			sh 'ls -ltr target/*.war'
+			sh 'sudo cp target/*.war /home/devopsuser6/apache-tomcat-8.5.37/webapps'
+		}
+
+		notify('Project Build Completed')
+	} catch(err) {
+		notify("Error ${err}")
+		currentBuild.result='FAILURE'
 	}
-	
-	stage('Deploy') {    
-		sh 'ls -ltr target/*.war'
-		sh 'sudo cp target/*.war /home/devopsuser6/apache-tomcat-8.5.37/webapps'
-	}
-	
-	notify('Project Build Started')
 	
 }
 
