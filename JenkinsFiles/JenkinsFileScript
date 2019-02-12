@@ -43,7 +43,7 @@ node('master'){
 			sh 'mvn cobertura:cobertura'
 		}
 		
-		stage('Unit Testinf') {
+		stage('Unit Testing') {
 			sh 'mvn test'
 		}
 
@@ -57,7 +57,7 @@ node('master'){
 			"files": [
 		    {
 		    "pattern": "*.war",
-		    "target": "lib-staging"
+		    "target": "lib-release"
 		    }
 			]
 			}""" 
