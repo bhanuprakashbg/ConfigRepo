@@ -72,7 +72,7 @@ node('master'){
 		}
 		
 		stage('Clean Workspace') {    
-			sh 'ls -ltr'
+			sh 'pwd'
 			//deleteDir()
 		}
 
