@@ -48,7 +48,7 @@ node('master'){
 		}
 
 		stage('Build') {    
-			sh 'mvn clean install'
+			sh 'mvn clean install -Dv=${env.BUILD_NUMBER}'
 		}
 
 		stage ('Artifactory') {
@@ -61,9 +61,7 @@ node('master'){
 		    }
 			]
 			}""" 
-			def buildInfo = Artifactory.newBuildInfo()
-			server.upload spec: uploadSpec, buildInfo: buildInfo	
-			server.publishBuildInfo buildInfo
+			server.upload spec: uploadSpec
 		}
 
 		stage('Deploy') {    
