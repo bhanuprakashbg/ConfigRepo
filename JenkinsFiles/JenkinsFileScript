@@ -48,7 +48,7 @@ node('master'){
 		}
 
 		stage('Build') {    
-			sh 'mvn clean install'
+			sh 'mvn clean install '
 		}
 
 		stage ('Artifactory') {
@@ -56,12 +56,14 @@ node('master'){
 			def uploadSpec = """{
 			"files": [
 		    {
-		    "pattern": "*.${env.BUILD_NUMBER}.war",
+		    "pattern": "*.war",
 		    "target": "lib-release"
 		    }
 			]
 			}""" 
-			server.upload spec: uploadSpec
+			def buildInfo = Artifactory.newBuildInfo()
+			server.upload spec: uploadSpec, buildInfo: buildInfo
+			server.publishBuildInfo buildInfo
 		}
 
 		stage('Deploy') {    
