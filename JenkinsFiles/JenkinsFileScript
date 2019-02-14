@@ -73,7 +73,7 @@ node('master'){
 		
 		stage('Clean Workspace') {    
 			sh 'pwd'
-			deleteDir()
+			//deleteDir()
 		}
 
 		notify('Project Build Completed')
