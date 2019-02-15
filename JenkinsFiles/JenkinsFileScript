@@ -33,6 +33,7 @@ node('master'){
 
 		stage('Checkout') {
 			git "${properties.appPath}"
+			sh 'pwd'
 		}	
 
 		stage('Code Analysis') {
