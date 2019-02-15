@@ -70,7 +70,7 @@ node('master'){
 		stage('Deploy') {    
 			//sh 'ls -ltr target/*.war'
 			//sh 'sudo cp target/*.war /home/devopsuser6/apache-tomcat-8.5.37/webapps'
-			sh 'cd /home/devopsuser6/Docker'
+			sh 'cd /home/devopsuser6'
 			sh 'sudo docker build -t mytomcat:latest Docker'
 			sh 'sudo docker run -d -p 8091:8080 --name mycontainer mytomcat'
 			sh 'sudo docker cp /home/devopsuser6/.jenkins/workspace/Devopspipeline/target/BankWebApp.war mycontainer:/usr/local/tomcat/webapps/'
