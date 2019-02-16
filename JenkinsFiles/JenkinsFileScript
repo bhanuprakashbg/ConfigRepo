@@ -1,6 +1,8 @@
 node {
 
-def java = load "javaJenkinsFile.groovy"
+git "https://github.com/bhanuprakashbg/UtilRepo.git"
+
+def java = load "java/javaJenkinsFile.groovy"
 		
 java.javastage()
 
