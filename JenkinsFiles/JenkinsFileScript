@@ -38,21 +38,9 @@ node('master'){
 			}			
 		}	
 
-		stage('Code Analysis') {
-			//sh 'mvn sonar:sonar'
-		}
+		def java = load "javaJenkinsFile.groovy"
 		
-		stage('Code Coverage') {
-			sh 'mvn cobertura:cobertura'
-		}
-		
-		stage('Unit Testing') {
-			sh 'mvn test'
-		}
-
-		stage('Build') {    
-			sh 'mvn clean install '
-		}
+		java.javastage()
 
 		stage ('Artifactory') {
 			def server = Artifactory.newServer url:"${properties.artifactoryURL}", username: "${properties.artifactoryUsername}", password: "${properties.artifactoryPassword}"
