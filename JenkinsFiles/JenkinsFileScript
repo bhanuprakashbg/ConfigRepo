@@ -35,12 +35,12 @@ node('master'){
 			git "${properties.appPath}"
 			dir('utilities') {
 				git "${properties.JenkinsFile}"
+				def java = load "java/javaJenkinsFile.groovy"
+				java.javastage()
 			}			
 		}	
 
-		def java = load "java/javaJenkinsFile.groovy"
 		
-		java.javastage()
 
 		stage ('Artifactory') {
 			def server = Artifactory.newServer url:"${properties.artifactoryURL}", username: "${properties.artifactoryUsername}", password: "${properties.artifactoryPassword}"
