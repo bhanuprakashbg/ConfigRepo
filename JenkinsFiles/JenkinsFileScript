@@ -76,6 +76,7 @@ node('master'){
 			sh 'pwd'
 			sh 'ls -ltr'
 			sh "sudo docker build -t mytomcat:latest utilities/java"
+			sh "sudo docker rm $(sudo docker ps -aq -f status=exited -f name=mycontainer)"
 			sh "sudo docker run -d -p 8091:8080 --name mycontainer mytomcat"
 			sh "sudo docker cp /home/devopsuser6/.jenkins/workspace/Devopspipeline/target/BankWebApp.war mycontainer:/usr/local/tomcat/webapps/"			
 		}
