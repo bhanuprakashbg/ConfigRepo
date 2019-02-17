@@ -5,8 +5,7 @@ def loadProperties() {
 		checkout scm
 		properties = new Properties()		
 		File propertiesFile = new File("${workspace}/Properties/pipeline.properties")
-		properties.load(propertiesFile.newDataInputStream())    
-		echo "Immediate one ${properties.appPath}"
+		properties.load(propertiesFile.newDataInputStream())    		
 	}
 }
 
@@ -16,7 +15,6 @@ def notify(status){
 		subject: "${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
 		body: """<p>${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' :</p>
 		<p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>""",
-
 		)
 	}
 
@@ -24,26 +22,32 @@ def notify(status){
 node('master'){
 		
 	try {
+		//Mail notification informing build start
 		notify('Project Build Started')
-
+		
+		
+		//Load Properties file from config repo
 		stage ('Load Properties') {
 			script {
 				loadProperties()				
 			}
 		}
 		
-		script {
-			sh 'pwd'			
+		
+		//Load script from util repo
+		script {						
 			git "${properties.JenkinsFile}"
 			def java = load "java/javaJenkinsFile.groovy"
-			java.javastage()						
-			sh 'ls -ltr'
-		}
+			java.javastage()									
+		}		
 		
-			
-		notify('Project Build Completed')					
+		
+		//Mail notification informing build completion
+		notify('Project Build Completed')
+		
 		
 	} catch(err) {
+		//Mail notification if there are any failures
 		notify("Error ${err}")
 		currentBuild.result='FAILURE'
 	}
