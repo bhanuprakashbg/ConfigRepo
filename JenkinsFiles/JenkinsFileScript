@@ -12,6 +12,7 @@ def loadProperties() {
 
 
 node {
+	loadProperties()
 	git "${properties.JenkinsFile}"
 	sh 'pwd'
 	def java = load "java/javaJenkinsFile.groovy"
