@@ -35,7 +35,7 @@ node('master'){
 		script {
 			git "${properties.JenkinsFile}"
 			sh 'pwd'
-			dir('utilities) {
+			dir('utilities') {
 				def java = load "utilities/java/javaJenkinsFile.groovy"
 				java.javastage()
 			}			
