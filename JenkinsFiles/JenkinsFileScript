@@ -33,12 +33,10 @@ node('master'){
 		}
 		
 		script {
-			sh 'pwd'
-			dir('utilities') {
-				git "${properties.JenkinsFile}"
-				def java = load "java/javaJenkinsFile.groovy"
-				java.javastage()
-			}			
+			sh 'pwd'			
+			git "${properties.JenkinsFile}"
+			def java = load "java/javaJenkinsFile.groovy"
+			java.javastage()						
 			sh 'ls -ltr'
 		}
 		
