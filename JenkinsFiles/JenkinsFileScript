@@ -36,14 +36,14 @@ node('master'){
 			sh 'pwd'
 			dir('utilities') {
 				git "${properties.JenkinsFile}"
-				def java = load "utilities/java/javaJenkinsFile.groovy"
+				def java = load "java/javaJenkinsFile.groovy"
 				java.javastage()
 			}			
 			sh 'ls -ltr'
 		}
 		
 		script {
-			def common = load "utilities/java/commonFile.groovy"
+			def common = load "java/commonFile.groovy"
 			sh 'pwd'
 			common.commonstage() 
 			sh 'ls -ltr'
