@@ -32,7 +32,8 @@ node('master'){
 			}
 		}
 
-		stage('java') {
+		//stage('java')
+		script {
 			git "${properties.JenkinsFile}"
 			sh 'pwd'
 			def java = load "java/javaJenkinsFile.groovy"
