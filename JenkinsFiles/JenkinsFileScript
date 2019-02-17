@@ -40,13 +40,7 @@ node('master'){
 			sh 'ls -ltr'
 		}
 		
-		script {
-			def common = load "java/commonFile.groovy"
-			sh 'pwd'
-			common.commonstage() 
-			sh 'ls -ltr'
-		}
-		
+			
 		notify('Project Build Completed')					
 		
 	} catch(err) {
