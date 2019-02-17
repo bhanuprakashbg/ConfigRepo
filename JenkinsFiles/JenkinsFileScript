@@ -31,8 +31,7 @@ node('master'){
 				loadProperties()				
 			}
 		}
-
-		//stage('java')
+		
 		script {
 			git "${properties.JenkinsFile}"
 			sh 'pwd'
@@ -40,39 +39,16 @@ node('master'){
 			java.javastage()
 			sh 'ls -ltr'
 		}
-
-		stage ('Artifactory') {
-			def server = Artifactory.newServer url:"${properties.artifactoryURL}", username: "${properties.artifactoryUsername}", password: "${properties.artifactoryPassword}"
-			def uploadSpec = """{
-			"files": [
-			{
-			"pattern": "*.war",
-			"target": "lib-release"
-			}
-			]
-			}""" 
-			def buildInfo = Artifactory.newBuildInfo()
-			server.upload spec: uploadSpec, buildInfo: buildInfo
-			server.publishBuildInfo buildInfo
-		}
-
-		stage('Deploy') {    
-			//sh 'ls -ltr target/*.war'
-			//sh 'sudo cp target/*.war /home/devopsuser6/apache-tomcat-8.5.37/webapps'
-			git "${properties.JenkinsFile}"			
+		
+		script {
+			def common = load "java/commonFile.groovy"
 			sh 'pwd'
+			common.commonstage() 
 			sh 'ls -ltr'
-			sh "sudo docker build -t mytomcat:latest utilities/java"			
-			sh "sudo docker run -d -p 8091:8080 --name mycontainer mytomcat"
-			sh "sudo docker cp /home/devopsuser6/.jenkins/workspace/Devopspipeline/target/BankWebApp.war mycontainer:/usr/local/tomcat/webapps/"			
 		}
-
-		stage('Clean Workspace') {    
-			sh 'pwd'
-			//deleteDir()
-		}
-
+		
 		notify('Project Build Completed')					
+		
 	} catch(err) {
 		notify("Error ${err}")
 		currentBuild.result='FAILURE'
